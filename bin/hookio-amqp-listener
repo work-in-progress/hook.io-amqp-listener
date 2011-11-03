@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+
+var AmqpListener = require('../lib/index').AmqpListener;
+
+var hook = new AmqpListener({
+  name: 'amqp-listener'
+});
+
+hook.start();

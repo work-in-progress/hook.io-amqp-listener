@@ -1,0 +1,82 @@
+{
+  "author": "Martin Wawrusch <martin@wawrusch.com> (http://martinatsunset.com)",
+  "name": "hook.io-amqp-listener",
+  "description": "A hook that listens to an amqp queue and forwards messages to the hook.io bus",
+  "version": "0.0.1",
+  "main" : "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/scottyapp/hook.io-amqp-listener.git"
+  },
+  "bin" : {
+    "hookio-amqp-listener" : "./bin/hookio-amqp-listener"
+  },
+  "directories" : {
+    "lib" : "./lib",
+    "test" : "./spec"
+  },
+  "keywords" : [
+    "hook.io","amqp","listen","amqp-listener","node-amqp-listener","forward","node-amqp","rabbitmq","queue"
+  ],
+  "scripts": {
+    "test": "node_modules/.bin/vows --spec spec/*-spec.coffee",
+    "watch" : "coffee -c -w  -o lib src"
+  },
+  "engines": {
+    "node": ">=0.4.8"
+  },
+  "dependencies": {
+    "colors" : "~ 0.5",
+    "hook.io" : "~ 0.7.7",
+    "amqp" : "0.1.x",
+    "pkginfo" : "~ 0.2"    
+  },
+  "devDependencies": {
+    "underscore" : "1.2.x",
+    "async" : "0.1.x",
+    "should" : ">=0.2.1",    
+    "vows" : ">= 0.5.9"
+  },
+  "bugs": { "url": "http://github.com/scottyapp/hook.io-amqp-listener/issues" },
+  "licenses": [
+    { "type": "MIT",
+      "url": "http://github.com/scottyapp/hook.io-amqp-listener/raw/master/LICENSE"
+    }
+  ],
+  "hook" : {
+    "type" : "AmqpListener",
+    "description" : "A hook that listens to an amqp queue and forwards messages to the hook.io bus",
+    "images" : [
+        { 
+          "size" : "29x29",
+          "url" : "http://github.com/scottyapp/hook.io-amqp-listener/raw/master/assets/amqp-listener29x29.png"
+        },
+        { 
+          "size" : "57x57",
+          "url" : "http://github.com/scottyapp/hook.io-amqp-listener/raw/master/assets/amqp-listener57x57.png"
+        },
+        { 
+          "size" : "114x114",
+          "url" : "http://github.com/scottyapp/hook.io-amqp-listener/raw/master/assets/amqp-listener114x114.png"
+        }        
+      ],
+    
+    "in" : [{
+        "name" : "amqp-listener::add",
+        "signatures" : []
+      },{
+        "name" : "amqp-listener::remove",
+        "signatures" : []
+      }
+    ],
+    
+    "out" : [{
+        "name" : "amqp-listener::error",
+        "signatures" : []
+      },{
+        "name" : "*",
+        "signatures" : []
+      }
+    ]
+  }
+}
