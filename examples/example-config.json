@@ -1,7 +1,15 @@
 {
   "queues" : [
     {
-      "url" : "amqp://..."
+      "connection" : "amqp[s]://[user:password@]hostname[:port][/vhost]",
+      "exchangeName" : 'amq.topic',
+      "queueName" : 'my-queue',
+      "allowAllByDefault" : true,
+      "allow" : ["messageName"],
+      "deny" : ["messageName"],
+      "nameMapping" : {
+        "myAmqpEvent" : "My::Hook::Event"
+      }
     }  
   ]
 }

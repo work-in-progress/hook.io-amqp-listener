@@ -5,11 +5,6 @@ module.exports =
   hook: null
   currentCb : null
   eatMe : 0
-  sourceText : "Hello world, foo bar!"
-
-  uncompressed : "afile.txt"
-  compressedGzip : "afile.txt.gz"
-  compressedBz2 : "afile.txt.bz2"
     
   setup: (cb) ->
       
