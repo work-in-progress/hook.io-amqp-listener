@@ -3,10 +3,13 @@ util = require 'util'
 colors = require 'colors'
 path = require 'path'
 fs = require "fs"
+amqp = require "amqp"
+Queue = require("./queue").Queue
 
 require('pkginfo')(module,'version','hook')
   
 class exports.AmqpListener extends Hook
+  queues: []
   
   constructor: (options) ->
     self = @
@@ -22,8 +25,7 @@ class exports.AmqpListener extends Hook
       
       for queue in (self.queues || [])
         self.emit "amqp-listener::add", queue
-
-    
+      
   _runCommand : (cmd,args,eventName,data) =>
     
     ###
@@ -59,7 +61,15 @@ class exports.AmqpListener extends Hook
     ###
   
   _add : (data) =>
-
+    queue = new Queue(data.connection,data.exchangeType,data.exchangeName,data.queueName)
+    queue.open (err) =>
+      if err
+        @emit "amqp-listener::error", 
+          data : data,
+          error : err
+      else
+        @queues.push(queue)
+        
     ###
         data.mode = 'gzip' unless data.mode == 'bzip2'
   
@@ -69,7 +79,7 @@ class exports.AmqpListener extends Hook
         else
           @_runCommand "bzip2",[ "-c", data.source ],"amqp-listener::compress-complete",data    
     ###
-  _remove : (data) ->
+  _remove : (data) =>
 
     ###
         console.log "Uncompress for #{data.source}".cyan

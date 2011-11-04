@@ -2,8 +2,9 @@
   "queues" : [
     {
       "connection" : "amqp[s]://[user:password@]hostname[:port][/vhost]",
-      "exchangeName" : 'amq.topic',
-      "queueName" : 'my-queue',
+      "exchangeName" : "amq.topic",
+      "queueName" : "my-queue",
+      "exchangeType" : "direct",
       "allowAllByDefault" : true,
       "allow" : ["messageName"],
       "deny" : ["messageName"],
