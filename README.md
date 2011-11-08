@@ -1,11 +1,17 @@
 ## About hook.io-amqp-listener
 
-A hook that listens to an amqp queue and forwards messages to the hook.io bus.
+A hook that listens to an amqp queue and forwards messages to the hook.io message bus.
+
+Scenario: You have a ruby/java/whatever front end app and want to decouple long running tasks, so you
+push messages into your amqp queue. Your backend processing is written in node.js, so you create a hook to do your backend work, and then link amqp messages to that hook's messages. And that's what this baby does.
 
 ![AmqpListener Icon](http://github.com/scottyapp/hook.io-amqp-listener/raw/master/assets/amqp-listener114x114.png)
 
 [![Build Status](https://secure.travis-ci.org/scottyapp/hook.io-amqp-listener.png)](http://travis-ci.org/scottyapp/hook.io-amqp-listener.png)
 
+## Credits
+
+Thanks a ton to @michaelklishin for helping me with amqp.
 
 ## Install
 
@@ -19,34 +25,37 @@ This starts a hook and reads the local config.json. It opens an amqp connection 
 
 ### Messages
 
-amqp-listener::compress [in]
+amqp-listener::add [in]
+Adds a queue listener. Make sure the tuple connection,queueName is added only once, otherwise
+all bets are off.
 
-	source: the source file name. Required. This is the file that will be compressed.
-	target: the target file name. Required.
-	mode: 'gzip' or 'bzip2', defaults to 'gzip'
+	connection : "amqp[s]://[user:password@]hostname[:port][/vhost]",
+	queueName : "my-queue",
 
-amqp-listener::uncompress [in]
+amqp-listener::remove [in]
+Removes a queue listener identified by the queue name and connection. 
 
-	source: the source file name. Required. This is the file that will be uncompressed.
-	target: the target file name. Required.
+	connection : "amqp[s]://[user:password@]hostname[:port][/vhost]",
+	queueName : "my-queue",
 
 amqp-listener::error [out]
 
-	code: code
-	source:
-	target:
-	mode:
+	data: the data causing the error
+	error: The actual error
 
-amqp-listener::compress-complete [out]
+amqp-listener::received [out]
+Message will be sent for each received event unless that event has been name mapped.
 
-	code: code
-	source:
-	target:
-	mode:
+	queue: The queue name.
+	message: The message received.
+	contentType: The content type. The message is never pre processed.
+  deliveryMode: Passed verbatim from the delivery info. 
+  deliveryTag: Passed verbatim from the delivery info.
+  redelivered: true if this message has been redelivered.
+  exchange : The exchange this came from, or "" for the default exchange.
+  routingKey : Passed verbatim from the delivery info.
+  consumerTag : Passed verbatim from the delivery info.
 
-amqp-listener::uncompress-complete [out]
-
-target : The target file name.
 
 ### Hook.io Schema support 
 

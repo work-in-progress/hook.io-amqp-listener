@@ -75,6 +75,9 @@
         "name" : "amqp-listener::error",
         "signatures" : []
       },{
+        "name" : "amqp-listener::received"
+        
+      },{
         "name" : "*",
         "signatures" : []
       }

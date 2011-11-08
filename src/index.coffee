@@ -30,8 +30,20 @@ class exports.AmqpListener extends Hook
         self.emit "amqp-listener::add", queue
       
   
-  _queueMessageReceived :(queue,m, headers, deliveryInfo) ->
-    console.log "HELLO: #{deliveryInfo.routingKey}  Headers: #{headers} Message: #{m}"
+  _queueMessageReceived :(queue,m, headers, deliveryInfo) =>
+    
+    @emit "amqp-listener::received",
+      queue : queue.queueName
+      message : m
+      contentType: deliveryInfo.contentType
+      deliveryMode :deliveryInfo.deliveryMode
+      deliveryTag: deliveryInfo.deliveryTag
+      redelivered: deliveryInfo.redelivered
+      exchange : deliveryInfo.exchange
+      routingKey : deliveryInfo.routingKey
+      consumerTag : deliveryInfo.consumerTag
+      
+    console.log "HELLO: #{deliveryInfo.routingKey}  Headers: #{JSON.stringify(headers)} Message: #{m} DELIVER: #{JSON.stringify(deliveryInfo)}"
   
   _add : (data) =>
     @connectionManager.getConnection data.connection, (err,amqpConnection) =>
