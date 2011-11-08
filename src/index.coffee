@@ -4,11 +4,14 @@ colors = require 'colors'
 path = require 'path'
 fs = require "fs"
 amqp = require "amqp"
-Queue = require("./queue").Queue
+QueueListener = require("./queue_listener").QueueListener
+QueuePublisher = require("./queue_publisher").QueuePublisher
+ConnectionManager = require("./connection_manager").ConnectionManager
 
 require('pkginfo')(module,'version','hook')
   
 class exports.AmqpListener extends Hook
+  connectionManager : new ConnectionManager()
   queues: []
   
   constructor: (options) ->
@@ -31,16 +34,27 @@ class exports.AmqpListener extends Hook
     console.log "HELLO: #{deliveryInfo.routingKey}  Headers: #{headers} Message: #{m}"
   
   _add : (data) =>
-    queue = new Queue(data.connection,data.exchangeType,data.exchangeName,data.queueName)
-    queue.messageReceived = @_queueMessageReceived
-    queue.open (err) =>
-      if err
-        @emit "amqp-listener::error", 
-          data : data,
-          error : err
-      else
-        @queues.push(queue)
-        
+    @connectionManager.getConnection data.connection, (err,amqpConnection) =>
+      return cb(err) if err
+      
+      
+      listener = new QueueListener amqpConnection,data.queueName,@_queueMessageReceived
+      listener.open (err) =>
+        if err
+          @emit "amqp-listener::error", 
+            data : data,
+            error : err
+        else
+          @queues.push(listener)
+      
+      ###
+      publisher = new QueuePublisher(amqpConnection,data.queueName,data.exchangeName,data.exchangeType)
+      publisher.open (err) =>
+        if(err)
+          console.log "Publisher open callback with error #{err}"
+        else
+          publisher.publishAsJson frankSays : "YEAH, this is a message"
+      ### 
   _remove : (data) =>
 
 
