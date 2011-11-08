@@ -1,4 +1,9 @@
 ## Pre Release
 
 * Add jsdoc
-* Add schema docs
+* queue options
+* remove / close queue
+* ackn. queue
+* throttle?
+* filtering
+* tests

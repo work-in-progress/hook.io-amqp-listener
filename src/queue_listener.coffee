@@ -19,7 +19,7 @@ class exports.QueueListener
         @messageReceived(@,m,headers,deliveryInfo)
     cb(null)
 
-  # Closes this. 
+  # Currently unused.
   # Basically just removes the messageReceived callback.
   close: (cb) =>
     @messageReceived = null

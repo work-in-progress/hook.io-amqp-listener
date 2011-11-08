@@ -5,7 +5,8 @@ module.exports =
   hook: null
   currentCb : null
   eatMe : 0
-  testQueue: "amqp://guest:guest@localhost:5672/scottyapp_dev"
+  testServer: "amqp://guest:guest@localhost:5672/scottyapp_dev"
+  testQueue: "test_queue"
   
   setup: (cb) ->
       

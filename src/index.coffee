@@ -32,6 +32,7 @@ class exports.AmqpListener extends Hook
   
   _queueMessageReceived :(queue,m, headers, deliveryInfo) =>
     
+    
     @emit "amqp-listener::received",
       queue : queue.queueName
       message : m
@@ -68,5 +69,5 @@ class exports.AmqpListener extends Hook
           publisher.publishAsJson frankSays : "YEAH, this is a message"
       ### 
   _remove : (data) =>
-
+    # Implement remove
 
