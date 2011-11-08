@@ -2,27 +2,34 @@ amqp = require "amqp"
 
 class exports.Queue
   connection: null
+  messageReceived : null
 
   isDirect:() =>
     @type == "direct"
     
-  constructor: (@url = "",@type = "direct",@exchangeName = "node-conn-share1",@queueName = "node-q1") ->
+  constructor: (@url = "",@type = "direct",@exchangeName = "amq.direct",@queueName = "queue") ->
     
   # TODO : Error Handling
   _openDirect: (cb) =>
+    console.log "Calling Open Direct with Queue Name: #{@queueName}, Type: #{@type} for url #{@url}"
     @connection.addListener "ready", =>
-      console.log "CONNECTION: #{@connection} EXCHANGE NAME: #{@exchangeName} EXCHANGE TYPE: #{@type}"
+      console.log "Connection ready"
+      
+      console.log "Opening exchange #{@exchangeName} as #{@type}"
       @exchange = @connection.exchange @exchangeName,type: @type
-      console.log "A"
-      @queue = @connection.queue @queueName, =>
-         console.log "B"
-         @queue.bind @exchange, "node-consumer-1"
-         console.log "C"
-         @queue.on "queueBindOk", =>
-           console.log "D"
-           @queue.subscribe (m, headers, deliveryInfo) =>
-            console.log "#{deliveryInfo.routingKey}  Headers: #{headers}"
-            cb(null)
+      
+      console.log "Opening queue #{@queueName}"
+      @queue = @connection.queue @queueName
+
+      console.log "Binding queue to #{@exchangeName} exchange"
+      @queue.bind @exchangeName,"#"
+      
+      @queue.on "queueBindOk", =>
+        console.log "Queue Bound OK"
+        @queue.subscribe (m, headers, deliveryInfo) =>
+            if @messageReceived
+              @messageReceived(@,m,headers,deliveryInfo)
+        cb(null)
  
      
   # Opens the queue (or at least tries to)
@@ -35,6 +42,7 @@ class exports.Queue
     
   # Closes the queue. Does nothing if it has not been opened before.
   close: (cb) =>
+    @messageReceived = null
     @connection.end()
     @connection = null
     

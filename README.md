@@ -64,9 +64,17 @@ The package config contains experimental hook.io schema definitions. The definit
 
 ## Advertising :)
 
-Check out http://freshfugu.com and http://scottyapp.com
+Check out 
 
-Follow us on Twitter at @getscottyapp and @freshfugu and like us on Facebook please. Every mention is welcome and we follow back.
+* http://scottyapp.com
+
+Follow us on Twitter at 
+
+* @getscottyapp
+* @martin_sunset
+
+and like us on Facebook please. Every mention is welcome and we follow back.
+
 
 ## Trivia
 

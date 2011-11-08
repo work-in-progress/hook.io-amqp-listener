@@ -23,9 +23,16 @@ connection.addListener "ready", ->
           q1.on "basicConsumeOk", ->
             exchange1.publish "node-consumer-1", "foo"
             exchange1.publish "node-consumer-1", "foo"
+            exchange1.publish "node-consumer-1", "foo"
+            exchange1.publish "node-consumer-1", "foo"
+            exchange1.publish "node-consumer-1", "foo"
             exchange1.publish "node-consumer-2", "foo"
 
           q2.on "basicConsumeOk", ->
+            exchange1.publish "node-consumer-1", "foo"
+            exchange1.publish "node-consumer-1", "foo"
+            exchange1.publish "node-consumer-1", "foo"
+            exchange1.publish "node-consumer-1", "foo"
             exchange1.publish "node-consumer-1", "foo"
             exchange1.publish "node-consumer-2", "foo"
             setTimeout (->
