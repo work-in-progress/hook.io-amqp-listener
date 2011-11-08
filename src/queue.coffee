@@ -26,11 +26,14 @@ class exports.Queue
       
       @queue.on "queueBindOk", =>
         console.log "Queue Bound OK"
+        console.log "Subscribing to queue now"
         @queue.subscribe (m, headers, deliveryInfo) =>
+          console.log "Received a message"
             if @messageReceived
               @messageReceived(@,m,headers,deliveryInfo)
         cb(null)
  
+      @exchange.publish "","Hello" 
      
   # Opens the queue (or at least tries to)
   open: (cb) =>
