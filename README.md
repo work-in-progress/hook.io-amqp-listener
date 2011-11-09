@@ -92,6 +92,11 @@ Listened to lots of M.I.A. and Soundgarden while writing this.
 
 ### 0.0.2
 
+* Move the .on code around a bit
+* Made use of @ instead of self.
+
+### 0.0.1
+
 * First version
 
 ## Internal Stuff
@@ -101,7 +106,7 @@ Listened to lots of M.I.A. and Soundgarden while writing this.
 # Publish new version
 
 * Change version in package.json
-* git tag -a v0.0.1 -m 'version 0.0.1'
+* git tag -a v0.0.2 -m 'version 0.0.2'
 * git push --tags
 * npm publish
 
