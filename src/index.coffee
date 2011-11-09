@@ -11,20 +11,20 @@ ConnectionManager = require("./connection_manager").ConnectionManager
 require('pkginfo')(module,'version','hook')
   
 class exports.AmqpListener extends Hook
-  connectionManager : new ConnectionManager()
-  queues: []
   
   constructor: (options) ->
+    @connectionManager = new ConnectionManager()
+    @queues = []
+
     self = @
-    Hook.call self, options
+    Hook.call @, options
   
     self.on "hook::ready", ->  
-  
-      self.on "amqp-listener::add", (data)->
+      self.on "amqp-listener::add", (data)=>
         self._add(data)
 
-      self.on "amqp-listener::remove", (data)->
-        self._remove(data)
+      #self.on "amqp-listener::remove", (data)->
+      #  self._remove(data)
       
       for queue in (self.queues || [])
         self.emit "amqp-listener::add", queue
@@ -44,7 +44,7 @@ class exports.AmqpListener extends Hook
       routingKey : deliveryInfo.routingKey
       consumerTag : deliveryInfo.consumerTag
       
-    console.log "HELLO: #{deliveryInfo.routingKey}  Headers: #{JSON.stringify(headers)} Message: #{m} DELIVER: #{JSON.stringify(deliveryInfo)}"
+    #console.log "Received: #{deliveryInfo.routingKey}  Headers: #{JSON.stringify(headers)} Message: #{m} DELIVER: #{JSON.stringify(deliveryInfo)}"
   
   _add : (data) =>
     @connectionManager.getConnection data.connection, (err,amqpConnection) =>
@@ -68,6 +68,6 @@ class exports.AmqpListener extends Hook
         else
           publisher.publishAsJson frankSays : "YEAH, this is a message"
       ### 
-  _remove : (data) =>
-    # Implement remove
+  #_remove : (data) =>
+  #  # Implement remove
 

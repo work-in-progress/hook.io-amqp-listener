@@ -3,7 +3,11 @@
 A hook that listens to an amqp queue and forwards messages to the hook.io message bus.
 
 Scenario: You have a ruby/java/whatever front end app and want to decouple long running tasks, so you
-push messages into your amqp queue. Your backend processing is written in node.js, so you create a hook to do your backend work, and then link amqp messages to that hook's messages. And that's what this baby does.
+push messages into your amqp queue. Your backend processing is written in node.js, so you create a hook to do your backend work, and then connect amqp to your hook.io bus.
+
+Caveat:
+
+This is a very early version. Future versions will hopefully support the mapping of event names and acknowledging messages. Right now I just needed it to work.
 
 ![AmqpListener Icon](http://github.com/scottyapp/hook.io-amqp-listener/raw/master/assets/amqp-listener114x114.png)
 
@@ -32,11 +36,6 @@ all bets are off.
 	connection : "amqp[s]://[user:password@]hostname[:port][/vhost]",
 	queueName : "my-queue",
 
-amqp-listener::remove [in]
-Removes a queue listener identified by the queue name and connection. 
-
-	connection : "amqp[s]://[user:password@]hostname[:port][/vhost]",
-	queueName : "my-queue",
 
 amqp-listener::error [out]
 

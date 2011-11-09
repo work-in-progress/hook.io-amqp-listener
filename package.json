@@ -65,9 +65,6 @@
     "in" : [{
         "name" : "amqp-listener::add",
         "signatures" : []
-      },{
-        "name" : "amqp-listener::remove",
-        "signatures" : []
       }
     ],
     
