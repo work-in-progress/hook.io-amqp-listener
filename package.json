@@ -2,7 +2,7 @@
   "author": "Martin Wawrusch <martin@wawrusch.com> (http://martinatsunset.com)",
   "name": "hook.io-amqp-listener",
   "description": "A hook that listens to an amqp queue and forwards messages to the hook.io bus",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main" : "lib/index.js",
   "repository": {
     "type": "git",

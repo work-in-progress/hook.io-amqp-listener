@@ -16,23 +16,16 @@ class exports.AmqpListener extends Hook
     @connectionManager = new ConnectionManager()
     @queues = []
 
-    self = @
     Hook.call @, options
-  
-    self.on "hook::ready", ->  
-      self.on "amqp-listener::add", (data)=>
-        self._add(data)
 
-      #self.on "amqp-listener::remove", (data)->
-      #  self._remove(data)
-      
-      for queue in (self.queues || [])
-        self.emit "amqp-listener::add", queue
-      
+    @on "amqp-listener::add", (data) =>
+      @_add(data)
+  
+    @on "hook::ready", =>  
+      for queue in (@queues || [])
+        @emit "amqp-listener::add", queue
   
   _queueMessageReceived :(queue,m, headers, deliveryInfo) =>
-    
-    
     @emit "amqp-listener::received",
       queue : queue.queueName
       message : m
@@ -49,7 +42,6 @@ class exports.AmqpListener extends Hook
   _add : (data) =>
     @connectionManager.getConnection data.connection, (err,amqpConnection) =>
       return cb(err) if err
-      
       
       listener = new QueueListener amqpConnection,data.queueName,@_queueMessageReceived
       listener.open (err) =>

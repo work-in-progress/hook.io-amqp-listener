@@ -90,7 +90,7 @@ Listened to lots of M.I.A. and Soundgarden while writing this.
 
 ## Release Notes
 
-### 0.0.1
+### 0.0.2
 
 * First version
 
